@@ -1,0 +1,11 @@
+GET http://localhost:4000/api/node/cars
+###
+GET http://localhost:4000/api/flask
+###
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "username": "nouvel_utilisateur",
+    "password": "mot_de_passe"
+}
