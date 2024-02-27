@@ -1,29 +1,24 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import jwt from 'jsonwebtoken';
+import { BlackListModel } from "./models/blacklist";
+import { CustomerModel } from './models/customer';
+import { Sequelize } from 'sequelize';
+import authenticationMiddleware from './middleware/middleware_jws';
+import { authRouter } from './router/customer';
 
-interface CustomRequest extends Request {
-    user?: any;
-}
+export const sequelize = new Sequelize({
+    dialect: "sqlite",
+    storage: "db/database.sqlite",
+  });
+  
+export const Customer = CustomerModel(sequelize);
+export const BlackList = BlackListModel(sequelize)
+sequelize.sync()
 
 const app = express();
 
-const authenticateToken = (req: CustomRequest, res: Response, next: NextFunction) => {
-    const token = req.headers['authorization'];
-    if (!token) {
-        return res.sendStatus(401);
-    }
-    jwt.verify(token as string, 'your_secret_key', (err: any, user: any) => {
-        if (err) {
-            return res.sendStatus(403);
-        }
-        req.user = user;
-        next();
-    });
-};
-
 const flaskProxy = createProxyMiddleware('/api/flask', {
-    target: 'http://127.0.0.1:8000/',
+    target: 'http://localhost:8000/',
     changeOrigin: true,
     pathRewrite: {
         '^/api/flask': '/',
@@ -34,12 +29,16 @@ const nodeProxy = createProxyMiddleware('/api/node', {
     target: 'http://localhost:3000/',
     changeOrigin: true,
     pathRewrite: {
-        '^/api/node': '',
+        '^\/api\/node\/cars': '/',
     },
 });
 
-app.use('/api/flask', authenticateToken, flaskProxy);
-app.use('/api/node', authenticateToken, nodeProxy);
+app.use('/api/flask',authenticationMiddleware, flaskProxy);
+app.use('/api/node/cars', authenticationMiddleware, nodeProxy);
+app.use(express.json())
+app.use('/api/auth', authRouter);
+
+
 
 const port = 4000;
 app.listen(port, () => {
