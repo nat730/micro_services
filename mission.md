@@ -26,7 +26,7 @@ A l'aide du TP de Docker sur Docker Compose, vous allez devoir mettre en place u
 Python. Cette API devra être capable de communiquer avec une base de données Redis. 
 https://docs.docker.com/compose/gettingstarted/
 
-2. API NodeJS - Express - Neon
+2. API NodeJS - Express - Neon  
 
 Vous devrez également mettre en place une API en NodeJS qui communiquera avec la même base de données.
 CRUD pour stocker des voitures (marque, modèle, année, couleur).

@@ -1,4 +1,4 @@
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMGEyMjBmMTMtNmIzNC00NzUyLTk2YWYtNjdlODA2YjkwM2JkIiwidXNlcklkIjoxLCJpYXQiOjE3MDkwNDY1MTEsImV4cCI6MTcwOTA1MDExMX0.BnCe97GWkWNBXI49U7YQTYmDaTcM0KCu1qXBmvnqse8
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMTg0ZmIyYWItMGViNS00ZmJjLThlMjEtOWFjNjY2ZWQzMjM0IiwidXNlcklkIjoxLCJpYXQiOjE3MDkwNTIwNzQsImV4cCI6MTcwOTA1NTY3NH0.GLoTzZtQXxFg9m_ZzmaXtoJuhbehKV5Gu2jVAFAEjbI
 
 GET http://localhost:4000/api/node/cars
 Authorization: Bearer {{token}}
@@ -29,4 +29,13 @@ POST http://localhost:4000/api/auth/local/logout/
 Authorization: Bearer {{token}}
 
 ###
-GET http://localhost:3000/
+POST http://localhost:4000/api/auth/local
+Content-Type: application/json
+
+{
+    "username": "nouvel_utilisateur",
+    "password": "mot_de_passe"
+}
+###
+
+GET http://localhost:4000/api/node/cars

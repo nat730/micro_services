@@ -13,7 +13,7 @@ export const sequelize = new Sequelize({
   
 export const Customer = CustomerModel(sequelize);
 export const BlackList = BlackListModel(sequelize)
-sequelize.sync()
+sequelize.sync({ force: true })
 
 const app = express();
 
